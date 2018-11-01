@@ -1,0 +1,12 @@
+TODO File for the cheat
+
+[Entry.asm] => Fix the crt_freopen access violation
+
+[Add][Hooking.asm][Hooking.inc] => Hooking.asm/ .inc for vtable hooking, need a workaround for the vac scans but should not be an overkill for this project
+[Add][Interface.asm][Interface.inc] => Interface.asm/ .inc for getting interfaces in csgo, so we can use IEngineClient, IBaseClient, IClientEntityList etc
+[Add][INTERFACE_NAME.asm][INTERFACE_NAME.inc] => Implement all the functions for the different interfaces, like IClientEntityList.asm/ .inc for GetClientEntity/ GetClientEntityFromHandle
+[Add][Memory.asm][Memory.inc] => Memory.asm/ .inc add a function which allows pattern scanning 
+[Add][NetVars.asm][NetVars.inc] => Implement a netvar scanner for grabbing the netvars correctly
+
+A long list especially the implementing of all interfaces will be a hard exercise but everything comes with time.
+
