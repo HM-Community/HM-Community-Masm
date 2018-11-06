@@ -3,7 +3,7 @@
 .model flat, stdcall
 option casemap:none
 
-include C:\masm32\include\masm32rt.inc
+include C:\masm32_x86\include\masm32rt.inc
 
 
 .code
@@ -65,4 +65,37 @@ ErrorAndExit:
 
 GetImageSize endp
 
+GetAddressOfExportedFunction proc szImageName : DWORD, szFunctionName : DWORD
+
+	mov eax, szImageName ; EAX = *(byte*)szImageName
+
+	push eax
+	call GetModuleHandleA
+
+	cmp eax, 0
+
+	jz Exit
+
+	push ebx
+	mov ebx, eax ; ebx = ImageBase from szImageName
+
+	;FARPROC GetProcAddress( HMODULE hModule, LPCSTR  lpProcName )
+	mov eax, szFunctionName
+
+	push eax
+	push ebx
+	call GetProcAddress
+
+	; No need to check here because even if the function fails
+	; the return value will be 0 in eax and we will return anyways
+
+	pop ebx
+
+	ret 8
+
+Exit:
+	printf("%s\n", "Could not get module handle!")
+	ret 8
+
+GetAddressOfExportedFunction endp
 end

@@ -15,6 +15,9 @@
     <Filter Include="&lt; Files &gt;\&lt; Memory &gt;">
       <UniqueIdentifier>{4ec44197-d1b9-4658-9250-1f7733a1be44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="&lt; Files &gt;\&lt; Utils &gt;">
+      <UniqueIdentifier>{bfab4d4e-5734-4ec9-b047-ca7ccfc17d8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="Entry\Entry.asm">
@@ -27,6 +30,9 @@
   <ItemGroup>
     <None Include="Memory\Memory.inc">
       <Filter>&lt; Files &gt;\&lt; Memory &gt;</Filter>
+    </None>
+    <None Include="Utils\Includes.inc">
+      <Filter>&lt; Files &gt;\&lt; Utils &gt;</Filter>
     </None>
   </ItemGroup>
 </Project>

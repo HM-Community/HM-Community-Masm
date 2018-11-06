@@ -2,3 +2,4 @@
 *.tlog
 Debug/
 .vs/
+/csgo-internal/Release
