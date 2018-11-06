@@ -3,9 +3,26 @@
 .model flat, stdcall
 option casemap:none
 
-include C:\masm32_x86\include\masm32rt.inc
+include C:\masm32\include\masm32rt.inc
 
 include Memory\Memory.inc
+
+_iobuf STRUCT
+    _ptr        DWORD ?
+    _cnt        DWORD ?
+    _base       DWORD ?
+    _flag       DWORD ?
+    _file       DWORD ?
+    _charbuf    DWORD ?
+    _bufsiz     DWORD ?
+    _tmpfname   DWORD ?
+_iobuf ENDS
+
+stdout MACRO
+    call crt___p__iob
+    add eax, SIZEOF _iobuf
+    EXITM <eax>
+ENDM
 
 .data
 
@@ -24,12 +41,12 @@ InitializeConsole proc
 	invoke AllocConsole
 
 	push eax
-	;invoke GetStdHandle, STD_OUTPUT_HANDLE
+;invoke GetStdHandle, STD_OUTPUT_HANDLE
 
 	mov dword ptr [ hOutput ], eax
 
 	;TODO: Fix access violation here
-	;invoke crt_freopen, offset szFilename, offset szMode, hOutput
+	invoke crt_freopen, offset szFilename, offset szMode, stdout()
 
 	invoke SetConsoleTitleA, offset szMessage
 
@@ -53,17 +70,17 @@ Entrypoint proc hModule : HMODULE, ul_reason_for_call : dword , lpReserved : LPV
 		
 		call InitializeConsole
 
-		;printf("%s\n", "Hello and welcome to the world of masm!")
+		printf("%s\n", "Hello and welcome to the world of masm!")
 		
 		invoke GetImageBase, 0
 		mov dwBase, eax
 
-		;printf("\n%s%s\n", "Image Base:", uhex$( dwBase ) ) ; Watch out the printf macro change some register!
+		printf("\n%s%s\n", "Image Base:", uhex$( dwBase ) ) ; Watch out the printf macro change some register!
 
 		invoke GetImageSize, 0
 		mov dwSize, eax
 		
-		;printf("\n%s%s\n", "Image Size:", str$( dwSize ) )
+		printf("\n%s%s\n", "Image Size:", str$( dwSize ) )
 
 		jmp Exit
 

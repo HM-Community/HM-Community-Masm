@@ -3,7 +3,7 @@
 .model flat, stdcall
 option casemap:none
 
-include C:\masm32_x86\include\masm32rt.inc
+include C:\masm32\include\masm32rt.inc
 
 
 .code
