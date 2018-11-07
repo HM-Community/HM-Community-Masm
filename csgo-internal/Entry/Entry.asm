@@ -9,6 +9,11 @@ include Memory\Memory.inc
 
 include Utils\Includes.inc
 
+include SDK\Interfaces\Interfaces.inc
+
+include SDK\Interfaces\IClientEntityList\IClientEntityList.inc
+
+
 .data
 
 szCaption db 'HM-Community', 0
@@ -17,10 +22,10 @@ szMessage db 'www.high-minded.net', 0
 szFilename db 'CONOUT$', 0
 szMode db 'w', 0
 
-szClientName db 'client_panorama.dll', 0
+szClientDllName db 'client_panorama.dll', 0
 szTierZero db 'tier0.dll', 0
 
-szCreateInterface db 'CreateInterface', 0
+;szCreateInterface db 'CreateInterface', 0
 szMsg db 'Msg', 0
 
 .code
@@ -85,6 +90,13 @@ Entrypoint proc hModule : HMODULE, ul_reason_for_call : dword , lpReserved : LPV
 		add esp, 8
 
 		printf("%s\n", "You may want to open the console..")
+
+		call InitializeInterfaces
+
+		push 2
+		call GetClientEntity
+
+		printf("%s%s\n", "Entity =- 0x", uhex$( eax ) )
 
 		invoke Sleep, 10000 ; Just for debug
 
