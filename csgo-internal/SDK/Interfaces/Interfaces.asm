@@ -162,28 +162,73 @@ GetEngineInterface endp
 
 ; Need to push the arguments for the vfunc before the call to this function
 ; Also make sure all parameter are 4 bytes aligned!! If not stack can be fucked up
-CallVFunc proc dwInterfaceAddress : dword, dwFunctionIndex : dword, dwParamCount
-
-	mov eax, dwInterfaceAddress
-	mov eax, dword ptr [ eax ]
-
-	push ecx
-	mov ecx, dwFunctionIndex
-
-	mov eax, dword ptr [ eax + ecx * 4 ]
-	pop ecx
-
-	call eax
-
-	push ebx
-	mov ebx, dwParamCount
-	imul ebx, 4
-
-	add esp, ebx
-	pop ebx
+CallVFunc proc dwInterfaceAddress : dword, dwFunctionIndex : dword
 
 	ret 8
 
 CallVFunc endp
+
+DbgVFunc proc dwInterfaceAddress : dword, dwFunctionIndex : dword
+	
+	; == Stack ==
+	; [ VFuncParam] + 0x10 + 4 * x, x = count of vfunc params
+	; [ Param2 ]	+ 0xC
+	; [ Param1 ]	+ 0x8
+	; [ RetAddr ]	+ 0x4
+	; [ ------- ]	+ 0x0
+	; [ dwParam1 ]	- 0x4
+	; [ dwParam2 ]	- 0x8
+	; [ dwRetAddr ] - 0xC
+
+	local dwParam1 : dword
+	local dwParam2 : dword
+	local dwReturnAddress : dword
+
+	local dwECX : dword
+
+	push eax								; save eax value
+
+	mov eax, dword ptr [ ebp + 4 ]			; save the return address 
+	mov dwReturnAddress, eax				; to the local variable for later use
+
+	mov eax, dwInterfaceAddress				; save the interface address
+	mov dwParam1, eax						; to the local variable for later use
+	
+	mov eax, dwFunctionIndex				; save the function index
+	mov dwParam2, eax						; to the local variable for later use
+
+	mov dwECX, ecx							; Save ecx because of the thispointer
+	
+	pop eax									; Restore eax value
+
+	add esp, 4 * 3							; Increase stack pointer
+											; so it points to the first vfunc parameter
+											; Data from ebp 0x0 - 0xC may be corrupted
+											; so we saved it to local variables
+
+	mov eax, dwParam1						; eax = dwInterfaceAddress
+	mov eax, dword ptr [ eax ]				; Dereference eax so it points to the vtable
+	
+	mov ecx, dwParam2						; Move dwFunctionIndex in ecx for addressing
+
+	mov eax, dword ptr [ eax + ecx * 4 ]	; Dereference correct vtable function address
+											; vtable + function_index * function_size
+
+	mov ecx, dwParam1						; Move the thispointer in ecx
+											; because of the thiscall calling convention
+
+	call eax								; call the vtable function
+
+	sub esp, 4 * 3							; Restore stack pointer to it's old value
+
+	mov ecx, dwECX							; Restore ecx to it's old value
+
+	push dwReturnAddress					; Push the saved return address
+
+	ret										; Return here without pop'ing the 8 bytes
+											; for the parameters because they got pop'ed
+											; when we increased the stackframe pointer
+
+DbgVFunc endp
 
 end

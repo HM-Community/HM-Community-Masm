@@ -56,7 +56,7 @@ Entrypoint proc hModule : HMODULE, ul_reason_for_call : dword , lpReserved : LPV
 	Switch ul_reason_for_call
 
 	case DLL_PROCESS_ATTACH
-		
+
 		call InitializeConsole
 
 		printf("\n%s\n", "This is a internal CS:GO Cheat developed by the community of HighMinded!")

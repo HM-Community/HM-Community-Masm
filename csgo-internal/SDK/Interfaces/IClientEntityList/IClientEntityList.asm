@@ -17,12 +17,9 @@ GetClientEntity proc dwIndex : dword
 	
 	push dwIndex ; Entity Index
 
-	push 1
-	push 4 ; VFunc Index for GetClientEntity
+	push 3 ; VFunc Index for GetClientEntity
 	push IClientEntityList
-	call CallVFunc
-	
-	add esp, 4 ; To clean up the pushed entity index { dwIndex }
+	call DbgVFunc
 
 	ret 4
 
