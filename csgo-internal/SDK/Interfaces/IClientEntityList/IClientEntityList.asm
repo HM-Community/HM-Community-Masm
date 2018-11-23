@@ -14,14 +14,22 @@ extern IClientEntityList : dword
 .code
 
 GetClientEntity proc dwIndex : dword
-	
-	push dwIndex ; Entity Index
 
 	push 3 ; VFunc Index for GetClientEntity
-	push IClientEntityList
-	call DbgVFunc
+	push IClientEntityList	
+	call CalcVfunc	
 
-	ret 4
+	.if eax == 0
+		ret 4
+	.endif
+
+	mov ecx, IClientEntityList	; Store this pointer in ecx because of the thiscall calling convention
+	mov ecx, [ ecx ]			; Dereference it, so it points to the vtable
+
+	push dwIndex
+	call eax
+
+	ret 4	; TODO: Fix crash here
 
 GetClientEntity endp
 

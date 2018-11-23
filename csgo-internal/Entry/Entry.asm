@@ -17,7 +17,7 @@ include SDK\Interfaces\IClientEntityList\IClientEntityList.inc
 .data
 
 szCaption db 'HM-Community', 0
-szMessage db 'www.high-minded.net', 0
+szMessage db 'www.high-minded.net', 13, 10, 0
 
 szFilename db 'CONOUT$', 0
 szMode db 'w', 0
