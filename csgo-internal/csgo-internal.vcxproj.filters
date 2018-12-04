@@ -18,6 +18,15 @@
     <Filter Include="&lt; Files &gt;\&lt; Utils &gt;">
       <UniqueIdentifier>{bfab4d4e-5734-4ec9-b047-ca7ccfc17d8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="&lt; Files &gt;\&lt; SDK &gt;">
+      <UniqueIdentifier>{459375d5-b48c-4b1a-aafb-58ad5b86b8ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="&lt; Files &gt;\&lt; SDK &gt;\Interfaces">
+      <UniqueIdentifier>{c7f09ad9-5436-494b-a051-ec87033f90fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="&lt; Files &gt;\&lt; SDK &gt;\Interfaces\IClientEntityList">
+      <UniqueIdentifier>{266f96df-39e6-4ffe-ae03-47b5fbfabda5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="Entry\Entry.asm">
@@ -26,6 +35,12 @@
     <MASM Include="Memory\Memory.asm">
       <Filter>&lt; Files &gt;\&lt; Memory &gt;</Filter>
     </MASM>
+    <MASM Include="SDK\Interfaces\IClientEntityList\IClientEntityList.asm">
+      <Filter>&lt; Files &gt;\&lt; SDK &gt;\Interfaces\IClientEntityList</Filter>
+    </MASM>
+    <MASM Include="SDK\Interfaces\Interfaces.asm">
+      <Filter>&lt; Files &gt;\&lt; SDK &gt;\Interfaces</Filter>
+    </MASM>
   </ItemGroup>
   <ItemGroup>
     <None Include="Memory\Memory.inc">
@@ -33,6 +48,12 @@
     </None>
     <None Include="Utils\Includes.inc">
       <Filter>&lt; Files &gt;\&lt; Utils &gt;</Filter>
+    </None>
+    <None Include="SDK\Interfaces\IClientEntityList\IClientEntityList.inc">
+      <Filter>&lt; Files &gt;\&lt; SDK &gt;\Interfaces\IClientEntityList</Filter>
+    </None>
+    <None Include="SDK\Interfaces\Interfaces.inc">
+      <Filter>&lt; Files &gt;\&lt; SDK &gt;\Interfaces</Filter>
     </None>
   </ItemGroup>
 </Project>

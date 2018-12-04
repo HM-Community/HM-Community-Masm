@@ -5,7 +5,6 @@ option casemap:none
 
 include C:\masm32_x86\include\masm32rt.inc
 
-
 .code
 
 GetImageBase proc szImageName : dword
@@ -36,7 +35,7 @@ GetImageSize proc szImageName : dword
 
 	mov edx, eax
 
-	push ecx ; &mInfo
+	push ecx ; ecx = &mInfo
 	lea ecx, [ mInfo ]
 
 	;BOOL GetModuleInformation( HANDLE hProcess, HMODULE hModule, LPMODULEINFO lpmodinfo, DWORD cb );
@@ -67,7 +66,7 @@ GetImageSize endp
 
 GetAddressOfExportedFunction proc szImageName : DWORD, szFunctionName : DWORD
 
-	mov eax, szImageName ; EAX = *(byte*)szImageName
+	mov eax, szImageName ; EAX = szImageName
 
 	push eax
 	call GetModuleHandleA

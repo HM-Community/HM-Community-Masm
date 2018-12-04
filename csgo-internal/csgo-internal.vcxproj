@@ -21,9 +21,13 @@
   <ItemGroup>
     <MASM Include="Entry\Entry.asm" />
     <MASM Include="Memory\Memory.asm" />
+    <MASM Include="SDK\Interfaces\IClientEntityList\IClientEntityList.asm" />
+    <MASM Include="SDK\Interfaces\Interfaces.asm" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Memory\Memory.inc" />
+    <None Include="SDK\Interfaces\IClientEntityList\IClientEntityList.inc" />
+    <None Include="SDK\Interfaces\Interfaces.inc" />
     <None Include="Utils\Includes.inc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

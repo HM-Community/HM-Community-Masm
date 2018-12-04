@@ -9,18 +9,23 @@ include Memory\Memory.inc
 
 include Utils\Includes.inc
 
+include SDK\Interfaces\Interfaces.inc
+
+include SDK\Interfaces\IClientEntityList\IClientEntityList.inc
+
+
 .data
 
 szCaption db 'HM-Community', 0
-szMessage db 'www.high-minded.net', 0
+szMessage db 'www.high-minded.net', 13, 10, 0
 
 szFilename db 'CONOUT$', 0
 szMode db 'w', 0
 
-szClientName db 'client_panorama.dll', 0
+szClientDllName db 'client_panorama.dll', 0
 szTierZero db 'tier0.dll', 0
 
-szCreateInterface db 'CreateInterface', 0
+;szCreateInterface db 'CreateInterface', 0
 szMsg db 'Msg', 0
 
 .code
@@ -51,7 +56,7 @@ Entrypoint proc hModule : HMODULE, ul_reason_for_call : dword , lpReserved : LPV
 	Switch ul_reason_for_call
 
 	case DLL_PROCESS_ATTACH
-		
+
 		call InitializeConsole
 
 		printf("\n%s\n", "This is a internal CS:GO Cheat developed by the community of HighMinded!")
@@ -85,6 +90,35 @@ Entrypoint proc hModule : HMODULE, ul_reason_for_call : dword , lpReserved : LPV
 		add esp, 8
 
 		printf("%s\n", "You may want to open the console..")
+
+		call InitializeInterfaces
+
+		push 1
+		call GetClientEntity
+		pushad
+		printf("%s%s\n", "GetClientEntity(1): 0x", uhex$( eax ) )
+		popad
+		
+		push eax
+		call GetClientEntityFromHandle
+
+		pushad
+		printf("%s%s\n", "GetClientEntityFromHandle(eax): 0x", uhex$( eax ) )
+		popad
+
+		push 0
+		call GetNumberOfEntities
+
+		pushad
+		printf("%s%s\n", "GetNumberOfEntities(0): 0x", uhex$( eax ) )
+		popad
+
+		call GetHighestEntityIndex
+
+		pushad
+		printf("%s%s\n", "GetHighestEntityIndex(): 0x", uhex$( eax ) )
+		popad
+
 
 		invoke Sleep, 10000 ; Just for debug
 
