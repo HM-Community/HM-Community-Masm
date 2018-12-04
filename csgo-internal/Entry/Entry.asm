@@ -93,10 +93,32 @@ Entrypoint proc hModule : HMODULE, ul_reason_for_call : dword , lpReserved : LPV
 
 		call InitializeInterfaces
 
-		push 2
+		push 1
 		call GetClientEntity
+		pushad
+		printf("%s%s\n", "GetClientEntity(1): 0x", uhex$( eax ) )
+		popad
+		
+		push eax
+		call GetClientEntityFromHandle
 
-		printf("%s%s\n", "Entity =- 0x", uhex$( eax ) )
+		pushad
+		printf("%s%s\n", "GetClientEntityFromHandle(eax): 0x", uhex$( eax ) )
+		popad
+
+		push 0
+		call GetNumberOfEntities
+
+		pushad
+		printf("%s%s\n", "GetNumberOfEntities(0): 0x", uhex$( eax ) )
+		popad
+
+		call GetHighestEntityIndex
+
+		pushad
+		printf("%s%s\n", "GetHighestEntityIndex(): 0x", uhex$( eax ) )
+		popad
+
 
 		invoke Sleep, 10000 ; Just for debug
 

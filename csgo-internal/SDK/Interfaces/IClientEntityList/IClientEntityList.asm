@@ -5,6 +5,8 @@ option casemap:none
 
 include SDK\Interfaces\Interfaces.inc
 
+include C:\masm32_x86\include\masm32rt.inc
+
 .data
 
 ; === Interfaces.asm ===
@@ -15,22 +17,95 @@ extern IClientEntityList : dword
 
 GetClientEntity proc dwIndex : dword
 
-	push 3 ; VFunc Index for GetClientEntity
-	push IClientEntityList	
-	call CalcVfunc	
+	local dwECX : dword
+
+	invoke GetVfunc, IClientEntityList, 3
 
 	.if eax == 0
 		ret 4
 	.endif
 
-	mov ecx, IClientEntityList	; Store this pointer in ecx because of the thiscall calling convention
-	mov ecx, [ ecx ]			; Dereference it, so it points to the vtable
+	mov dwECX, ecx
+
+	mov ecx, IClientEntityList
 
 	push dwIndex
 	call eax
 
-	ret 4	; TODO: Fix crash here
+	mov ecx, dwECX
+
+	ret 4				
 
 GetClientEntity endp
+
+GetClientEntityFromHandle proc hEntity : dword
+
+	local dwECX : dword
+
+	invoke GetVfunc, IClientEntityList, 4
+
+	.if eax == 0
+		ret 4
+	.endif
+
+	mov dwECX, ecx
+
+	mov ecx, IClientEntityList
+
+	push hEntity
+	call eax
+
+	mov ecx, dwECX
+
+	ret 4
+
+GetClientEntityFromHandle endp
+
+
+GetNumberOfEntities	proc bIncludeNonNetworkable : byte 
+
+	local dwECX : dword
+
+	invoke GetVfunc, IClientEntityList, 5
+
+	.if eax == 0
+		ret 4
+	.endif
+
+	mov dwECX, ecx
+
+	mov ecx, IClientEntityList
+
+	push dword ptr bIncludeNonNetworkable ; Need to sign/zero extend here the byte value for the push.
+	call eax
+
+	mov ecx, dwECX
+
+	ret 4 ; 4 bytes because masm aligns every parameter from a function to 4 bytes. 
+
+GetNumberOfEntities endp
+
+
+GetHighestEntityIndex proc
+
+	local dwECX : dword
+
+	invoke GetVfunc, IClientEntityList, 6
+
+	.if eax == 0
+		ret 4
+	.endif
+
+	mov dwECX, ecx
+
+	mov ecx, IClientEntityList
+
+	call eax
+
+	mov ecx, dwECX
+
+	ret
+
+GetHighestEntityIndex endp
 
 end

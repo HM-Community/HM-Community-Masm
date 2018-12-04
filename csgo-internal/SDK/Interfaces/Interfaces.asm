@@ -171,7 +171,7 @@ CalcVfunc proc dwInterfaceAddress : dword, dwFunctionIndex : dword
 
 	lea ebx, [ ebx + ecx * 4 ]		; Calculate the vfunc address - absolute
 	
-	mov eax, ebx					; Save it in eax
+	mov eax, dword ptr [ ebx ]		; Dereference the vfunc address again and save it in eax
 
 	pop ecx
 	pop ebx
@@ -179,5 +179,15 @@ CalcVfunc proc dwInterfaceAddress : dword, dwFunctionIndex : dword
 	ret 8
 
 CalcVfunc endp
+
+GetVfunc proc dwInterfaceAddress : dword, dwFunctionIndex : dword
+
+	push dwFunctionIndex
+	push dwInterfaceAddress
+	call CalcVfunc
+
+	ret 8
+
+GetVfunc endp
 
 end
