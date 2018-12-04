@@ -93,7 +93,7 @@ GetHighestEntityIndex proc
 	invoke GetVfunc, IClientEntityList, 6
 
 	.if eax == 0
-		ret 4
+		ret
 	.endif
 
 	mov dwECX, ecx
